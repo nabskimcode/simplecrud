@@ -2,6 +2,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Pet = require("../models/Pets");
 const Joi = require("joi");
+const User = require("../models/User");
 
 exports.getPet = asyncHandler(async (req, res, next) => {
   const pet = await Pet.findById(req.params.id);
@@ -15,6 +16,8 @@ exports.getPet = asyncHandler(async (req, res, next) => {
 exports.createPet = asyncHandler(async (req, res, next) => {
   // add user to req.body
   req.body.user = req.user.id;
+
+  const user = await User.findById(req.params.id);
 
   const pet = await Pet.create(req.body);
 
